@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/grafana/grafana/pkg/api/cloudwatch"
+	"github.com/grafana/grafana/pkg/api/keystone"
 	"github.com/grafana/grafana/pkg/bus"
 	"github.com/grafana/grafana/pkg/log"
 	"github.com/grafana/grafana/pkg/metrics"
@@ -123,6 +124,16 @@ func ProxyDataSourceRequest(c *middleware.Context) {
 	targetUrl, _ := url.Parse(ds.Url)
 	if !checkWhiteList(c, targetUrl.Host) {
 		return
+	}
+
+	keystoneAuth := ds.JsonData.Get("keystoneAuth").MustBool()
+	if keystoneAuth {
+		token, err := keystone.GetToken(c)
+		if err != nil {
+			c.JsonApiErr(500, "Failed to get keystone token", err)
+			return
+		}
+		c.Req.Request.Header["X-Auth-Token"] = []string{token}
 	}
 
 	proxyPath := c.Params("*")
