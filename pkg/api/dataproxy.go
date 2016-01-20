@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/grafana/grafana/pkg/api/pluginproxy"
+	"github.com/grafana/grafana/pkg/api/keystone"
 	"github.com/grafana/grafana/pkg/bus"
 	"github.com/grafana/grafana/pkg/metrics"
 	"github.com/grafana/grafana/pkg/middleware"
@@ -52,6 +53,16 @@ func (hs *HttpServer) ProxyDataSourceRequest(c *middleware.Context) {
 	if !ok {
 		c.JsonApiErr(500, "Unable to find datasource plugin", err)
 		return
+	}
+
+	keystoneAuth := ds.JsonData.Get("keystoneAuth").MustBool()
+	if keystoneAuth {
+		token, err := keystone.GetToken(c)
+		if err != nil {
+			c.JsonApiErr(500, "Failed to get keystone token", err)
+			return
+		}
+		c.Req.Request.Header["X-Auth-Token"] = []string{token}
 	}
 
 	proxyPath := c.Params("*")
