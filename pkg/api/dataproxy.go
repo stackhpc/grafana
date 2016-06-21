@@ -85,6 +85,7 @@ func NewReverseProxy(ds *m.DataSource, proxyPath string, targetUrl *url.URL) *ht
 
 		// reqBytes, _ := httputil.DumpRequestOut(req, true);
 		// log.Trace("Proxying datasource request: %s", string(reqBytes))
+		log.Info("Proxying call to %s", req.URL.String())
 	}
 
 	return &httputil.ReverseProxy{Director: director, FlushInterval: time.Millisecond * 200}
