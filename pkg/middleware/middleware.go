@@ -263,4 +263,6 @@ func AddDefaultResponseHeaders() macaron.Handler {
 			ctx.Resp.Header().Add("Expires", "-1")
 		}
 	}
+func IsSecure(ctx *Context) bool {
+	return (ctx.Req.TLS != nil) || (ctx.Req.Header.Get("X-Forwarded-Proto") == "https")
 }
