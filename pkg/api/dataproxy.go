@@ -109,7 +109,13 @@ func ProxyDataSourceRequest(c *middleware.Context) {
 		}
 	}
 
-	keystoneAuth := ds.JsonData.Get("keystoneAuth").MustBool()
+	keystoneAuth := ds.JsonData.Get("keystoneAuth").MustBool(false)
+
+	// Try authType (new setting name) as well if keystoneAuth is missing/false
+	if !keystoneAuth {
+		keystoneAuth = (ds.JsonData.Get("authMode").MustString("") == "Keystone")
+	}
+
 	if keystoneAuth {
 		token, err := keystone.GetToken(c)
 		if err != nil {
