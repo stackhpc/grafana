@@ -77,7 +77,7 @@
     "tether": "^1.4.0",
     "tether-drop": "https://github.com/torkelo/drop",
     "tslint": "^4.0.2",
-    "typescript": "^2.1.4",
+    "typescript": "2.8.4",
     "virtual-scroll": "^1.1.1"
   }
 }
