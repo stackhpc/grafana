@@ -125,5 +125,8 @@
     "tether": "^1.4.0",
     "tether-drop": "https://github.com/torkelo/drop",
     "tinycolor2": "^1.4.1"
+  },
+  "resolutions": {
+   "@types/react": "^16.0.0"
   }
 }

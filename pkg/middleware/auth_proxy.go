@@ -4,11 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"strings"
-	"time"
+//	"time"
 
 	"github.com/grafana/grafana/pkg/bus"
 	"github.com/grafana/grafana/pkg/log"
-	"github.com/grafana/grafana/pkg/login"
+//	"github.com/grafana/grafana/pkg/login"
 	m "github.com/grafana/grafana/pkg/models"
 	"github.com/grafana/grafana/pkg/setting"
 )
@@ -77,6 +77,7 @@ func initContextWithAuthProxy(ctx *Context, orgId int64) bool {
 	}
 
 	// When ldap is enabled, sync userinfo and org roles
+        /*
 	if err := syncGrafanaUserWithLdapUser(ctx, query); err != nil {
 		if err == login.ErrInvalidCredentials {
 			ctx.Handle(500, "Unable to authenticate user", err)
@@ -85,7 +86,7 @@ func initContextWithAuthProxy(ctx *Context, orgId int64) bool {
 
 		ctx.Handle(500, "Failed to sync user", err)
 		return false
-	}
+	} */
 
 	ctx.SignedInUser = query.Result
 	ctx.IsSignedIn = true
@@ -95,6 +96,7 @@ func initContextWithAuthProxy(ctx *Context, orgId int64) bool {
 }
 
 var syncGrafanaUserWithLdapUser = func(ctx *Context, query *m.GetSignedInUserQuery) error {
+/*
 	if setting.LdapEnabled {
 		expireEpoch := time.Now().Add(time.Duration(-setting.AuthProxyLdapSyncTtl) * time.Minute).Unix()
 
@@ -102,7 +104,6 @@ var syncGrafanaUserWithLdapUser = func(ctx *Context, query *m.GetSignedInUserQue
 		if lastLdapSyncInSession := ctx.Session.Get(SESS_KEY_LASTLDAPSYNC); lastLdapSyncInSession != nil {
 			lastLdapSync = lastLdapSyncInSession.(int64)
 		}
-
 		if lastLdapSync < expireEpoch {
 			ldapCfg := login.LdapCfg
 
@@ -116,6 +117,7 @@ var syncGrafanaUserWithLdapUser = func(ctx *Context, query *m.GetSignedInUserQue
 			ctx.Session.Set(SESS_KEY_LASTLDAPSYNC, time.Now().Unix())
 		}
 	}
+*/
 
 	return nil
 }
