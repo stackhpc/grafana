@@ -2,7 +2,7 @@ import {describe, beforeEach, it, sinon, expect, angularMocks} from 'test/lib/co
 
 import helpers from 'test/specs/helpers';
 import _ from 'lodash';
-import TimeSrv from '../time_srv';
+import '../time_srv';
 import moment from 'moment';
 
 describe('timeSrv', function() {
